@@ -1,18 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { restrauntList } from "../config";
 import RestrauntCard from "./RestrauntCard";
+import Shimmer from "./Shimmer";
 
 function filterData(searchInput, restaurants) {
   const filterData = restaurants.filter((restaurant) =>
-    restaurant.data.name.includes(searchInput)
+    restaurant?.data?.name?.toLowerCase()?.includes(searchInput.toLowerCase())
   );
   return filterData;
 }
 
 const Body = () => {
-  const [restaurants, setRestaurants] = useState(restrauntList);
+  const [allRestaurants, setAllRestaurants] = useState([]);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchInput, setSearchInput] = useState("");
-  return (
+
+  useEffect(() => {
+    console.log("call this when dependencies are updated");
+    getRestaurants();
+  }, []);
+
+  async function getRestaurants() {
+    const data = await fetch(
+      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.6995525&lng=77.0373762&page_type=DESKTOP_WEB_LISTING"
+    );
+    const jsonData = await data.json();
+    console.log(jsonData);
+    // Todo: Optional Chaining
+    setAllRestaurants(jsonData?.data?.cards[2]?.data?.data?.cards);
+    setFilteredRestaurants(jsonData?.data?.cards[2]?.data?.data?.cards);
+  }
+  if (!allRestaurants) return null;
+
+  if (filteredRestaurants.length === 0) {
+    return <h1>No Restaurant match your Filter!</h1>;
+  }
+
+  return allRestaurants.length === 0 ? (
+    <Shimmer />
+  ) : (
     <>
       <div className="search-container">
         <input
@@ -27,10 +53,8 @@ const Body = () => {
         <button
           className="seach-btn"
           onClick={() => {
-            // Need to filter the data
-            const data = filterData(searchInput, restrauntList);
-            // update the state - restaurant
-            setRestaurants(data);
+            const data = filterData(searchInput, allRestaurants);
+            setFilteredRestaurants(data);
           }}
         >
           Search
@@ -40,7 +64,7 @@ const Body = () => {
         style={{ backgroundColor: "lightsmoke" }}
         className="restaurant-list"
       >
-        {restaurants.map((restaurant) => {
+        {filteredRestaurants.map((restaurant) => {
           return (
             <RestrauntCard {...restaurant.data} key={restaurant.data.id} />
           );
