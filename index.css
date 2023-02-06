@@ -1,26 +1,70 @@
+*{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+.appContainer {
+    margin: 0 50px;
+}
+
 .header{
     display: flex;
     justify-content: space-between;
     margin: 10px;
     border: 1px solid black;
-
 }
 .logo{
     height: 80px;
     width: 100px;
 }
 
-.card{
+.body{
+    display: flex;
+    margin: auto;
+}
+.card {
     flex-wrap: wrap;
-    width: 200px;
-    border: 1px solid black;
-    padding: 10px;
-    margin: 10px;
+    width: 220px;
+    /* border: 1px solid gray; */
+    border-radius: 10px;
+    box-shadow: 4px 4px 4px 4px lightgray;
     display: flex;
     justify-content: space-between;
 }
-.card >img{
+
+h1 {
+    color: #264653;
+    margin: 5px 0;
+}
+
+h2 {
+    color: #2e6176;
+    margin: 5px 0;
+}
+
+h3 {
+    color: #2a9d8f;
+    margin: 5px 0;
+}
+
+h4 {
+    color: #f4a261
+}
+
+.cardBody {
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    height: -webkit-fill-available;
+}
+
+.cardTop {
+    height: 135px;
+}
+
+.cardTop > img{
     width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 .nav-items > ul {
     list-style-type: none;
@@ -29,11 +73,27 @@
 
 .nav-items > ul > li {
     padding: 10px;
+    list-style-type: style none;
 
 }
 
 .restaurant-list{
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+    gap: 30px;
 }
 
+.shimmer-card{
+    width: 200px;
+    height:200px;
+    background: lightgrey;
+    margin: 20px;
+    
+}
+
+.menu{
+    display: flex;
+    
+}
